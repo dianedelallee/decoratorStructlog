@@ -3,7 +3,7 @@ from typing import Optional
 import structlog
 from custom_logging import custom_logging_for_class
 
-logger = structlog.get_logger('Playerlogger')
+logger = structlog.get_logger()
 
 
 @custom_logging_for_class

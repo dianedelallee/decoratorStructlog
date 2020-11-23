@@ -1,27 +1,28 @@
 import uuid
 import structlog
+from typing import Callable
 
-logger = structlog.get_logger()
+custom_logger = structlog.get_logger()
+
+def set_trace_id(function: Callable, trace_id: str) -> None:
+    global_var = function.__globals__
+    global_var['trace_id'] = trace_id
 
 
 def custom_logging_for_function(original_function):
     trace_id = str(uuid.uuid4())
-    global_var = original_function.__globals__
-    global_var['trace_id'] = trace_id
+    set_trace_id(original_function, trace_id)
     function_name = f'{original_function.__module__}.{original_function.__name__}'
+    logger = custom_logger.bind(function_name=function_name, trace_id=trace_id)
 
     def new_function(*args, **kwargs):
-        logger.info(
-            'Before calling the function', function_name=function_name, trace_id=trace_id, args=args, kwargs=kwargs
-        )
+        logger.info('Before calling the function', args=args, kwargs=kwargs)
         try:
             result = original_function(*args, **kwargs)
         except Exception as e:
-            logger.warning(
-                'An issue occured during the function', function_name=function_name, trace_id=trace_id, error=str(e)
-            )
+            logger.warning('An issue occured during the function',error=str(e))
             raise Exception(e)
-        logger.info('After calling the function', function_name=function_name, trace_id=trace_id, result=result)
+        logger.info('After calling the function', result=result)
 
         return result
 
