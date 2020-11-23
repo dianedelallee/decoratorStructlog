@@ -20,9 +20,13 @@ class Player:
         return self.name
 
     def set_name(self, new_name: str) -> None:
-        logger.info('trying to set the name of the user', trace_id=trace_id)
+        logger.critical('trying to set the name of the user', trace_id=trace_id)
         self.name = new_name
 
     def get_age_in_cat_live(self) -> int:
         logger.info('trying to get the aage in cat referencial', trace_id=trace_id)
-        return self.age * 7
+        return self.age * self._get_cat_referential()
+
+    def _get_cat_referential(self):
+        logger.info('get cat referential', trace_id=trace_id)
+        return 7
