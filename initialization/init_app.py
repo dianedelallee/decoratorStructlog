@@ -10,8 +10,8 @@ def init_app():
             structlog.processors.StackInfoRenderer(),
             structlog.processors.format_exc_info,
             structlog.processors.UnicodeDecoder(),
-            structlog.processors.JSONRenderer(indent=2, sort_keys=True),  # for production
-            # structlog.dev.ConsoleRenderer()   # for development
+            # structlog.processors.JSONRenderer(indent=2, sort_keys=True),  # for production
+            structlog.dev.ConsoleRenderer()   # for development
         ],
         context_class=dict,
         cache_logger_on_first_use=True,

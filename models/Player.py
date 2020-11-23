@@ -1,10 +1,10 @@
-import structlog
-
-from custom_logging import custom_logging_for_class
-
 from typing import Optional
 
+import structlog
+from custom_logging import custom_logging_for_class
+
 logger = structlog.get_logger('Playerlogger')
+
 
 @custom_logging_for_class
 class Player:
