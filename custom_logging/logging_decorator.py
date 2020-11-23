@@ -17,6 +17,7 @@ def custom_logging_for_function(original_function):
             result = original_function(*args, **kwargs)
         except Exception as e:
             logger.warning('An issue occured during the function', function_name=function_name, trace_id=trace_id, error=str(e))
+            raise Exception(e)
         logger.info('After calling the function', function_name=function_name, trace_id=trace_id, result=result)
 
 
