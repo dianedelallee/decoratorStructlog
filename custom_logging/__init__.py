@@ -1,0 +1,1 @@
+from .logging_decorator import custom_logging_for_class, custom_logging_for_function
